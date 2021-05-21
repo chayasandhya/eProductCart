@@ -79,3 +79,7 @@
   border-radius: 10px;
   background-color: rgb(215, 215, 240);
 }
+
+.btn:hover {
+  background-color: rgb(124, 223, 124);
+}
