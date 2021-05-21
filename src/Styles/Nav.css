@@ -1,0 +1,32 @@
+.container_header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.nav_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8%;
+  background-color: #151e3f;
+  padding: 10px;
+}
+
+.nav_container h3 {
+  color: white;
+  font-size: larger;
+}
+
+.cart_profile {
+  display: flex;
+  justify-content: space-around;
+  width: 10%;
+}
+
+.inp_search {
+  width: 500px;
+  border-radius: 6px;
+  outline: none;
+}
