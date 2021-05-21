@@ -5,36 +5,55 @@ function Main({ addCartItems, search }) {
   const [items, setItems] = useState([]);
   const [searchedItems, setSearchedItems] = useState([]);
 
-  function sendItemsToCart(item) {
-    addCartItems(item);
-  }
+  /**
+   * Fetch Data and populate onto
+   * Items and SearchItems
+   * SearchItems by default will have all the data available unless queried
+   */
 
+  /**
+   * On component load fetchData
+   */
   useEffect(() => {
+    async function fetchData() {
+      let res = await fetch("https://www.cubyt.io/data/categories");
+      let data = await res.json();
+      setItems(data);
+      setSearchedItems(data);
+    }
     fetchData();
   }, []);
 
   useEffect(() => {
+    /**
+     * Function to search the items based on the filter
+     * as well as the search input field on the Nav bar
+     */
     function searchItems() {
-      let filteredAry = items.filter((item) => {
-        if (item.display_name.toLowerCase().includes(search.toLowerCase())) {
-          return true;
-        } else {
-          return false;
+      let filteredAry = [];
+      if (search.length == 0) {
+        filteredAry = items;
+      } else {
+        let searchedSet = new Set();
+        for (let eachSearch of search) {
+          items.forEach((item) => {
+            if (
+              item.display_name.toLowerCase().includes(eachSearch.toLowerCase())
+            ) {
+              searchedSet.add(item);
+            }
+          });
         }
-      });
+        filteredAry.push(...Array.from(searchedSet));
+      }
       return filteredAry;
     }
     setSearchedItems(searchItems());
   }, [search]);
 
-  async function fetchData() {
-    let res = await fetch("https://www.cubyt.io/data/categories");
-    let data = await res.json();
-    setItems(data);
-    setSearchedItems(data);
-    console.log(data);
-  }
-
+  /**
+   * GridItem() is a template generator for the items to be placed on a grid template
+   */
   function gridItem(item, keyId) {
     let image = item.image_uri
       ? item.image_uri
@@ -52,14 +71,16 @@ function Main({ addCartItems, search }) {
           </div>
         </div>
         <div className="items_action">
-          <button className="btn" onClick={() => sendItemsToCart(item)}>
+          <button className="btn" onClick={() => addCartItems(item)}>
             Add
           </button>
         </div>
       </div>
     );
   }
-
+  /**
+   * JSX for the component
+   */
   return (
     <div className="items_card_contanier">
       {searchedItems.map((each, i) => {

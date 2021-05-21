@@ -6,8 +6,13 @@ import Cart from "./Components/Cart";
 
 function App() {
   const [showCart, setShowCart] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState([]);
   const [cartItems, setCartItems] = useState(new Map());
+
+  function addSearchKeys(searchKeys) {
+    let searchState = [...searchKeys];
+    setSearch(searchState);
+  }
 
   function addCartItems(item) {
     let itemMap = new Map(cartItems);
@@ -25,7 +30,8 @@ function App() {
       <Nav
         setShowCart={setShowCart}
         showCart={showCart}
-        setSearch={setSearch}
+        search={search}
+        addSearchKeys={addSearchKeys}
       ></Nav>
       <div onClick={() => setShowCart(false)}>
         {showCart && <Cart cartItems={cartItems}></Cart>}

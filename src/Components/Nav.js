@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import "../Styles/Nav.css";
 import "../Styles/Cart.css";
+import AdvancedSearch from "./AdvancedSearch";
 
 const useStyle = makeStyles({
   colorPrimary: {
@@ -12,14 +13,25 @@ const useStyle = makeStyles({
   },
 });
 
-function Nav({ setShowCart, showCart, setSearch }) {
+function Nav({ setShowCart, showCart, search, addSearchKeys }) {
+  const [searchKey, setSearchKey] = useState("");
+  const [filterKeys, setFilterKeys] = useState([]);
   const classes = useStyle();
+
+  useEffect(() => {
+    const searchKeys = [...filterKeys];
+    if (searchKey != "") {
+      searchKeys.unshift(searchKey);
+    }
+    addSearchKeys(searchKeys);
+  }, [searchKey, filterKeys]);
+
   return (
     <div className="container_header">
       <div className="nav_container">
         <h3>Fluke Products</h3>
         <input
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearchKey(e.target.value)}
           className="inp_search"
           type="text"
           placeholder="search products...✍ "
@@ -37,6 +49,10 @@ function Nav({ setShowCart, showCart, setSearch }) {
           ></AccountCircleIcon>
         </div>
       </div>
+      <AdvancedSearch
+        search={search}
+        addSearchKeys={setFilterKeys}
+      ></AdvancedSearch>
     </div>
   );
 }

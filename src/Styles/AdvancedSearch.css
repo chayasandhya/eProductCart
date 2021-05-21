@@ -1,0 +1,20 @@
+.adv_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 8%;
+  background-color: #c2cbeb;
+  padding: 10px;
+}
+
+.filter {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 10%;
+}
+
+.filter label {
+  margin: 0;
+  font-size: bold;
+}
